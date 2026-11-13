@@ -3,7 +3,7 @@
 using namespace std;
 
 // 3 users stored in arrays
-string names[3] = {"Thabo", "Lerato", "Sipho"};
+string names[3] = {"Malcom", "Lerato", "Ricia"};
 int accountNumbers[3] = {1004, 1005, 1006};
 int pins[3] = {1234, 1111, 2468};
 double balances[3] = {500.00, 1000.00, 250.00};
