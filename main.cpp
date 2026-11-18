@@ -50,6 +50,20 @@ double withdraw(double balance, double amount) {
 void checkBalance(double balance) {
     cout << "Your current balance is: R" << balance << endl;
 }
+void sendCash(int senderIndex, int recipientIndex, double amount) {
+    if (amount <= 0) {
+        cout << "Invalid amount." << endl;
+        return;
+    }
+    if (amount > balances[senderIndex]) {
+        cout << "Insufficient funds." << endl;
+        return;
+    }
+    balances[senderIndex] -= amount;
+    balances[recipientIndex] += amount;
+    cout << "Send Cash successful to " << names[recipientIndex] << "." << endl;
+    cout << "Your new balance: R" << balances[senderIndex] << endl;
+}
 
 int findAccount(int accNo) {
     for (int i = 0; i < 3; i++) {
@@ -85,48 +99,39 @@ int main() {
         cin >> choice;
 
     switch (choice) {
-            case 1:
-                cout << "Enter amount to deposit: R";
-                cin >> amount;
-                balances[userIndex] = deposit(balances[userIndex], amount);
-                break;
-            case 2:
-                cout << "Enter amount to withdraw: R";
-                cin >> amount;
-                balances[userIndex] = withdraw(balances[userIndex], amount);
-                break;
-            case 3:
-                {
-                int recipientAcc;
-                cout << "Enter recipient account number: ";
-                cin >> recipientAcc;
-                int recipientIndex = findAccount(recipientAcc);
+         case 1:
+            cout << "Enter amount to deposit: R";
+            cin >> amount;
+            balances[userIndex] = deposit(balances[userIndex], amount);
+            break;
+         case 2:
+            cout << "Enter amount to withdraw: R";
+            cin >> amount;
+            balances[userIndex] = withdraw(balances[userIndex], amount);
+            break;
+         case 3:
+          {
+        int recipientAcc;
+        cout << "Enter recipient account number: ";
+        cin >> recipientAcc;
+        int recipientIndex = findAccount(recipientAcc);
 
-                if (recipientIndex == -1) {
-                    cout << "Recipient account does not exist."<<endl;
-                } else if (recipientIndex == userIndex) {
-                    cout << "You cannot send cash to yourself."<<endl;
-                } else {
-                    cout << "Enter amount to send: R";
-                    cin >> amount;
-                    if (amount <= 0) {
-                        cout << "Invalid amount."<<endl;
-                    } else if (amount > balances[userIndex]) {
-                        cout << "Insufficient funds."<<endl;
-                    } else
-                    {
-                    balances[userIndex] -= amount;
-                    balances[recipientIndex] += amount;
-                    cout << "Send Cash successful to " << names[recipientIndex] << "." <<endl;
-                    cout << "Your new balance: R" << balances[userIndex] << endl;
-                    }
-                }
-                break;
-            }
-            case 4:
+    if (recipientIndex == -1) {
+        cout << "Recipient account does not exist." << endl;
+    } else if (recipientIndex == userIndex) {
+        cout << "You cannot send cash to yourself." << endl;
+    } else {
+        cout << "Enter amount to send: R";
+        cin >> amount;
+        sendCash(userIndex, recipientIndex, amount);
+    }
+    break;
+    }
+
+        case 4:
                 checkBalance(balances[userIndex]);
                 break;
-            case 5:
+        case 5:
                 cout << "Thank you for banking with GCC BANK. Goodbye!"<<endl;
                 break;
             default:
